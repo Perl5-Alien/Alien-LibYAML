@@ -7,8 +7,6 @@ use utf8;
 use Alien::Base::ModuleBuild;
 use File::Spec::Functions qw(catfile);
 
-my $patch = $^O eq 'MSWin32' ? 'patch --binary' : 'patch';
-
 my $builder = Alien::Base::ModuleBuild->new(
     dist_name => 'Alien-LibYAML',
     license => 'MIT',
@@ -26,7 +24,7 @@ my $builder = Alien::Base::ModuleBuild->new(
         c_compiler_required => 0,
     },
     alien_build_commands => [
-      "$patch -p1 < ../../yaml-0_1_6.patch",
+      "%{patch} -p1 < ../../yaml-0_1_6.patch",
       '%c --prefix=%s',
       'make',
     ],
@@ -34,7 +32,7 @@ my $builder = Alien::Base::ModuleBuild->new(
       'make install',
     ],
     alien_bin_requires => {
-      'Alien::patch' => 0,
+      'Alien::patch' => '0.06',
     },
     alien_isolate_dynamic => 1,
     # Prerequisites inserted by DistZilla:
